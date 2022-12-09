@@ -21,12 +21,14 @@ screen.onkey(r_paddle.go_down, "Down")
 screen.onkey(l_paddle.go_up, "w")
 screen.onkey(l_paddle.go_down, "s")
 
+GAME_OVER = 10
 game_is_on = True
 while game_is_on:
     time.sleep(ball.move_speed)
     screen.update()
     ball.move()
 
+    # Detect collision with wall
     if ball.ycor() > 280 or ball.ycor() < -280:
         ball.bounce_y()
 
@@ -43,6 +45,16 @@ while game_is_on:
     if ball.xcor() < -380:
         ball.reset_position()
         scoreboard.r_point()
+
+    # Game over condition
+    if scoreboard.l_score == GAME_OVER:
+        winner = "left player"
+        scoreboard.end(winner)
+        game_is_on = False
+    elif scoreboard.r_score == GAME_OVER:
+        winner = "right player"
+        scoreboard.end(winner)
+        game_is_on = False
 
 
 screen.exitonclick()
